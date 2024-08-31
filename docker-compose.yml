@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: postgres
+    environment:
+      POSTGRES_USER: grafana_user
+      POSTGRES_PASSWORD: gr4f4n4pass
+      POSTGRES_DB: grafana_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=contras3na
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  postgres_data:
+  grafana_data:
